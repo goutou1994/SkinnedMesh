@@ -1,6 +1,6 @@
 class Vertex {
     constructor(pos) {
-        this.opos = this.pos = pos || $V([0, 0]);
+        this.opos = this.pos = $V(pos) || $V([0, 0]);
         this.constraints = [];
         this.offsets = [];
     }
@@ -31,11 +31,19 @@ class Vertex {
         for (let i = 0; i < this.constraints.length; i++) {
             const {cp, weight} = this.constraints[i];
             let p3 = cp.transform.multiply(this.offsets[i]);
-            result = result.add($V([p3.e(1) / p3.e(3), p3.e(2) / p3.e(3)]));
+            result = result.add($V([p3.e(1) / p3.e(3), p3.e(2) / p3.e(3)]).x(weight));
             w_acc += weight;
         }
         this.pos = result.x(1 / w_acc);
         return this.pos;
+    }
+
+    get x() {
+        return this.pos.e(1);
+    }
+
+    get y() {
+        return this.pos.e(2);
     }
 }
 
