@@ -1,16 +1,13 @@
 import SkinnedMesh from './SkinnedMesh/SkinnedMesh';
 import ImageDisplay from './ImageDisplay';
-const canvas = document.querySelector('canvas#main');
-
-// const sm = new SkinnedMesh(canvas, 500, 500);
+const canvas1 = document.querySelector('canvas#main');
+const canvas2 = document.querySelector('canvas#img');
 
 (async function() {
-    const img = new ImageDisplay(
-        canvas.getContext('webgl2'),
-        'brickwall.jpg',
-        [500, 500],
-        [10, 10]
-    );
-    await img.init();
-    img.draw();
+    const sm = new SkinnedMesh([canvas1, canvas2], 500, 500, 'brickwall.jpg');
+    await sm.init();
+    setInterval(() => {
+        sm.draw();
+    }, 1000 / 20);
 })();
+

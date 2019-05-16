@@ -1,32 +1,37 @@
 import CP from './ControlPoints';
 import Vertex from './Vertex';
 import Controller from '@/Controller';
+import ImageDisplay from '@/ImageDisplay';
 
 class SkinnedMesh {
 
-    constructor(canvas, width, height) {
+    constructor([canvas1, canvas2], width, height, path) {
         this.width = width;
         this.height = height;
-        this.canvas = canvas;
-        this.context = canvas.getContext('2d');
+        this.canvas = canvas1;
+        this.context = canvas1.getContext('2d');
         this.cp = [];
         this.v = [];
         this.ctrl_o = [];
         this.ctrl = new Controller(this.canvas, this.ctrl_o);
-        this.init();
+        this.img = new ImageDisplay(
+            canvas2.getContext('webgl2'),
+            path,
+            [500, 500],
+            [10, 10]
+        );
     }
 
-    init() {
-        this.cp.push(new CP([50, 50]));
-        this.cp.push(new CP([100, 100]));
+    async init() {
+        this.cp.push(new CP([150, 150]));
+        this.cp.push(new CP([350, 350]));
         const count = 50;
-        for (let i = 0; i < count; i++) {
-            this.v.push(new Vertex([Math.random() * 500, Math.random() * 500]))
-        }
+        
+        this.v = this.img.outputVertex().map(item => new Vertex(item));
 
         for (let v of this.v) {
-            v.addConstraint(this.cp[0], .1);
-            v.addConstraint(this.cp[1], 1);
+            v.addConstraint(this.cp[0], 1 / Math.pow(v.opos.distanceFrom(this.cp[0].opos), 4));
+            v.addConstraint(this.cp[1], 1 / Math.pow(v.opos.distanceFrom(this.cp[1].opos), 4));
             v.init();
         }
 
@@ -37,9 +42,7 @@ class SkinnedMesh {
             }
         }
         this.ctrl.reset();
-
-        setInterval(this.draw.bind(this), 1000 / 20);
-        this.draw();
+        await this.img.init();
     }
 
     draw() {
@@ -50,6 +53,10 @@ class SkinnedMesh {
         this.context.fillStyle="#00f";
         for (let v of this.v) {
             v.getRealPos();
+        }
+        this.img.setVertex(this.v);
+        this.img.draw();
+        for (let v of this.v) {
             this.context.beginPath();
             this.context.arc(v.x, v.y, 5, 0, Math.PI * 2);
             this.context.fill();

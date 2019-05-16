@@ -14,6 +14,7 @@ function loadImage(path) {
 
 class ImageDisplay {
     constructor(context, path, [width, height], [gridsX, gridsY]) {
+        console.log(context);
         this.context = context;
         this.imgp = loadImage(path);
         this.size = [width, height];
@@ -78,7 +79,35 @@ class ImageDisplay {
         gl.uniform1i(tex_bind, 0);
     }
 
+    _t(x, l) {
+        return x * l / 2 + l / 2;
+    }
+
+    _it(x, l) {
+        return x / l * 2 - 1;
+    }
+
+    outputVertex() {
+        let output = [];
+        for (let i = 0; i < this.vertex.length; i++) {
+            output.push([
+                this._t(this.vertex[i * 2], 500),
+                this._t(this.vertex[i * 2 + 1], 500)
+            ]);
+        }
+        return output;
+    }
+
+    setVertex(v) {
+        for (let i = 0; i < this.vertex.length / 2; i++) {
+            this.vertex[i * 2] = this._it(v[i].x, 500);
+            this.vertex[i * 2 + 1] = this._it(v[i].y, 500);
+        }
+        this.updateVertex();
+    }
+
     updateVertex() {
+        const gl = this.context;
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vbo);
         gl.bufferSubData(gl.ARRAY_BUFFER, 0, this.vertex);
     }
