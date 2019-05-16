@@ -10,11 +10,14 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "raw-loader": "^2.0.0",
     "webpack": "^4.31.0"
   },
   "dependencies": {
     "@babel/core": "^7.4.4",
+    "@babel/plugin-transform-runtime": "^7.4.4",
     "@babel/preset-env": "^7.4.4",
+    "@babel/runtime": "^7.4.4",
     "babel-loader": "^8.0.6"
   }
 }

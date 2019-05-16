@@ -19,9 +19,10 @@ class SkinnedMesh {
     init() {
         this.cp.push(new CP([50, 50]));
         this.cp.push(new CP([100, 100]));
-        this.v.push(new Vertex([75, 75]));
-        this.v.push(new Vertex([125, 100]));
-        this.v.push(new Vertex([100, 125]));
+        const count = 50;
+        for (let i = 0; i < count; i++) {
+            this.v.push(new Vertex([Math.random() * 500, Math.random() * 500]))
+        }
 
         for (let v of this.v) {
             v.addConstraint(this.cp[0], .1);

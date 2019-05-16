@@ -2,11 +2,11 @@ class ControlPoints {
     constructor(pos, r) {
         this.opos = this.pos = pos && $V(pos) || $V([0, 0]);
         this.or = this.r = r || 0;
+        this.d = 13;
         this.updateRPos();
         this.transform = Matrix.I(3);
         this.calcTransform();
         this.active = false;
-        this.d = 13;
         const that = this;
         this.ctrl_o = [
             // move control point
