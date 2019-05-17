@@ -91,8 +91,8 @@ class ImageDisplay {
         let output = [];
         for (let i = 0; i < this.vertex.length; i++) {
             output.push([
-                this._t(this.vertex[i * 2], 500),
-                this._t(this.vertex[i * 2 + 1], 500)
+                this._t(this.vertex[i * 2], this.size[0]),
+                this._t(this.vertex[i * 2 + 1], this.size[1])
             ]);
         }
         return output;
@@ -100,8 +100,8 @@ class ImageDisplay {
 
     setVertex(v) {
         for (let i = 0; i < this.vertex.length / 2; i++) {
-            this.vertex[i * 2] = this._it(v[i].x, 500);
-            this.vertex[i * 2 + 1] = this._it(v[i].y, 500);
+            this.vertex[i * 2] = this._it(v[i].x, this.size[0]);
+            this.vertex[i * 2 + 1] = this._it(v[i].y, this.size[1]);
         }
         this.updateVertex();
     }

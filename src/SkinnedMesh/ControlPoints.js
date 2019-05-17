@@ -11,7 +11,7 @@ class ControlPoints {
         this.ctrl_o = [
             // move control point
             {
-                pos: [that.pos.e(1) - 5, that.pos.e(2) - 5, 10, 10],
+                pos: [that.x - 5, that.y - 5, 10, 10],
                 callbacks: {
                     mousein() {
                         that.active = true;
@@ -47,6 +47,7 @@ class ControlPoints {
                 }
             }
         ];
+        this.updateControlObject();
     }
 
     updateRPos() {
